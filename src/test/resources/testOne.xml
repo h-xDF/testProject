@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Test One" parallel="methods" thread-count="3">
+
+    <test name="test 1">
+        <classes>
+            <class name="ui.FirstTest"/>
+        </classes>
+    </test>
+    <!--<test name="ebooks2">
+        <classes>
+            <class name="com.skydisk.ui.ebooks.EbookTest"/>
+        </classes>
+    </test>-->
+    <!--<test name="api">
+        <classes>
+            <class name="com.skydisk.api.disk.DownloadFileTest"/>
+        </classes>
+    </test>-->
+</suite>

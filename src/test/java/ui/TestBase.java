@@ -1,6 +1,9 @@
 package ui;
 
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
@@ -10,15 +13,19 @@ import org.testng.annotations.Parameters;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 public class TestBase {
 
     //Declare ThreadLocal Driver (ThreadLocalMap) for ThreadSafe Tests
     protected static ThreadLocal<RemoteWebDriver> driver = new ThreadLocal<RemoteWebDriver>();
+    //protected  RemoteWebDriver driver;
 
     @BeforeMethod
-    @Parameters(value={"browser"})
-    public void setupTest (String browser) throws MalformedURLException {
+    //@Parameters(value = "chrome")
+    public void setupTest () throws MalformedURLException {
+
+        String browser = "chrome";
         //Set DesiredCapabilities
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -35,20 +42,34 @@ public class TestBase {
         }*/
 
         //Set BrowserName
-        capabilities.setCapability("browserName", browser);
+
+        capabilities.setBrowserName("chrome");
+        capabilities.setVersion("69.0");
+        capabilities.setCapability("enableVNC", true);
+        capabilities.setCapability("enableVideo", false);
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("disable-infobars");
+        options.addArguments(Arrays.asList("--window-position=0,0"));
+        options.addArguments(Arrays.asList("--window-size=1920,1080"));
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+        Configuration.browser = "chrome";
 
         //Set Browser to ThreadLocalMap
+        //driver.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities));
         driver.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities));
     }
 
-    public WebDriver getDriver() {
+    public RemoteWebDriver getDriver() {
         //Get driver from ThreadLocalMap
+        //return driver;
         return driver.get();
     }
 
     @AfterMethod
     public void tearDown() throws Exception {
-        getDriver().quit();
+        driver.get().quit();
     }
 
     @AfterClass
