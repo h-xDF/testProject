@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Test One" parallel="methods" thread-count="3">
+<suite name="Test One" parallel="tests" thread-count="3">
 
     <test name="test 1">
+        <!--<parameter name="checkFlag" value="test1"/>-->
+        <classes>
+            <class name="ui.FirstTest"/>
+        </classes>
+    </test>
+    <test name="test 2" parallel="methods" thread-count="3">
+        <!--<parameter name="checkFlag" value="test2"/>-->
         <classes>
             <class name="ui.FirstTest"/>
         </classes>
